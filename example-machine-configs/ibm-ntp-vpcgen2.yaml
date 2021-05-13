@@ -1,0 +1,19 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 98-ibm-machineconfig-chrony
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  fips: true
+  config:
+    ignition:
+      version: 2.2.0
+    storage:
+      files:
+        - contents:
+            source: data:;base64,cG9vbCB0aW1lLmFkbi5uZXR3b3JrbGF5ZXIuY29tIGlidXJzdAoKc2VydmVyIHRpbWUuYWRuLm5ldHdvcmtsYXllci5jb20gaWJ1cnN0IG1pbnBvbGwgMyBtYXhwb2xsIDQKCiMgUmVjb3JkIHRoZSByYXRlIGF0IHdoaWNoIHRoZSBzeXN0ZW0gY2xvY2sgZ2FpbnMvbG9zc2VzIHRpbWUuCmRyaWZ0ZmlsZSAvdmFyL2xpYi9jaHJvbnkvZHJpZnQKCiMgQWxsb3cgdGhlIHN5c3RlbSBjbG9jayB0byBiZSBzdGVwcGVkIGluIHRoZSBmaXJzdCB0aHJlZSB1cGRhdGVzCiMgaWYgaXRzIG9mZnNldCBpcyBsYXJnZXIgdGhhbiAxIHNlY29uZC4KbWFrZXN0ZXAgMS4wIDMKCiMgRW5hYmxlIGtlcm5lbCBzeW5jaHJvbml6YXRpb24gb2YgdGhlIHJlYWwtdGltZSBjbG9jayAoUlRDKS4KcnRjc3luYwoKIyBTcGVjaWZ5IGZpbGUgY29udGFpbmluZyBrZXlzIGZvciBOVFAgYXV0aGVudGljYXRpb24uCmtleWZpbGUgL2V0Yy9jaHJvbnkua2V5cwoKIyBHZXQgVEFJLVVUQyBvZmZzZXQgYW5kIGxlYXAgc2Vjb25kcyBmcm9tIHRoZSBzeXN0ZW0gdHogZGF0YWJhc2UuCmxlYXBzZWN0eiByaWdodC9VVEMKCiMgU3BlY2lmeSBkaXJlY3RvcnkgZm9yIGxvZyBmaWxlcy4KbG9nZGlyIC92YXIvbG9nL2Nocm9ueQoK
+          filesystem: root
+          overwrite: true
+          mode: 644
+          path: /etc/chrony.conf
