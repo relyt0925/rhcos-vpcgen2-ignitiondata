@@ -1,0 +1,8 @@
+/var/log/at/*.log /var/log/at/*/*.log /var/log/at/*/*/*.log /var/log/at/*/*/*/*.log /var/log/at/*/*/*/*/*.log /var/log/at/*/*/*/*/*/*.log /var/log/at/*/*/*/*/*/*/*.log /var/log/at/*/*/*/*/*/*/*/*.log /var/log/at/*/*/*/*/*/*/*/*/*.log /var/log/at/*/*/*/*/*/*/*/*/*/*.log
+{
+    dateext
+    dateformat -%Y%m%d-%s
+    rotate 4
+    daily
+    missingok
+}

@@ -1,0 +1,17 @@
+[Unit]
+Description=Locate secondary storage device
+After=network-online.target local-fs.target
+Before=ibm-ext4-format.service ibm-luks-encryption.service
+ConditionPathExists=!/etc/sysconfig/ibmsecondarystorage/ibmsecondarystorageenvfile
+
+
+[Service]
+Type=oneshot
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+EnvironmentFile=-/etc/sysconfig/ibmsecondarystorageinputparameters
+
+ExecStart=/usr/local/bin/ibm-locate-secondary-storage.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

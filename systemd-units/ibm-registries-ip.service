@@ -1,0 +1,13 @@
+[Unit]
+Description=Sets up local IP to proxy ibm registry traffic
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/ibm-add-registry-routes.sh
+ExecStop=/usr/local/bin/ibm-remove-registry-routes.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

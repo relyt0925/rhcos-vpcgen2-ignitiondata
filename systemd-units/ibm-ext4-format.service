@@ -1,0 +1,18 @@
+[Unit]
+Description=Format ext4 filesystem on secondary disk
+After=network-online.target local-fs.target
+Before=kubelet.service
+ConditionPathExists=/etc/sysconfig/ibmsecondarystorage/ext4
+ConditionPathExists=!/etc/sysconfig/ibmsecondarystorage/setupexecuted
+
+
+[Service]
+Type=oneshot
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+EnvironmentFile=-/etc/sysconfig/ibmsecondarystorage/ibmsecondarystorageenvfile
+
+ExecStart=/usr/local/bin/ibm-ext4-format.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

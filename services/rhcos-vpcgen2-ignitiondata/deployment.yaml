@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: List
+metadata:
+  name: rhcos-vpcgen2-ignitiondata-list
+  annotations:
+    version: (( grab $TRAVIS_COMMIT || "dev" ))
+    razee.io/source-url: (( grab $REPO_SOURCE_URL ))
+    razee.io/build-url: (( grab $BUILD_URL ))
+items:
+  - apiVersion: v1
+    data:
+      data: |
+        apiVersion: machineconfiguration.openshift.io/v1
+        kind: MachineConfig
+        metadata:
+          name: 98-ibm-machineconfig-kubelet
+          labels:
+            machineconfiguration.openshift.io/role: master
+        spec:
+          config:
+            ignition:
+              version: 2.2.0
+            storage:
+              files:
+                - contents:
+                    source: data:,%23!%2Fusr%2Fbin%2Fenv%20bash%0Aset%20-x%0ADEFAULT_INTERFACE%3D%24(ip%20-4%20route%20ls%20%7C%20grep%20default%20%7C%20head%20-n%201%20%7C%20grep%20-Po%20%27(%3F%3C%3Ddev%20)(%5CS%2B)%27)%0AWORKER_SUBNET%3D%24(ip%20addr%20show%20dev%20%22%24DEFAULT_INTERFACE%22%20%7C%20grep%20%22inet%20%22%20%7C%20awk%20%27%7Bprint%20%242%7D%27%20%7C%20awk%20%27NR%3D%3D1%7Bprint%20%241%7D%27)%0AWORKER_IP%3D%24(echo%20%22%24WORKER_SUBNET%22%20%7C%20awk%20-F%20%2F%20%27%7Bprint%20%241%7D%27)%0AKUBELET_HOSTNAME_OVERRIDE%3D%22%24WORKER_IP%22%0Awhile%20true%3B%20do%0A%09IBM_MACHINE_METADATA_PREFIX%3D%22ibm-machinemetadata%22%0A%09IBM_MACHINE_METADATA_DIRECTORY%3D%22%2Fetc%2Fsysconfig%2Fibmmachinemetadata%22%0A%09METADATA_KUBE_NAMESPACE%3D%22openshift-infra%22%0A%09BOOTSTRAP_KUBECONFIG_FILE_PATH%3D%22%2Fetc%2Fkubernetes%2Fkubeconfig%22%0A%09mkdir%20-p%20%22%24IBM_MACHINE_METADATA_DIRECTORY%22%0A%09oc%20extract%20-n%20%22%24METADATA_KUBE_NAMESPACE%22%20--kubeconfig%20%22%24BOOTSTRAP_KUBECONFIG_FILE_PATH%22%20%22configmap%2F%24%7BIBM_MACHINE_METADATA_PREFIX%7D-%24%7BKUBELET_HOSTNAME_OVERRIDE%7D%22%20--to%3D%22%24IBM_MACHINE_METADATA_DIRECTORY%22%20--confirm%0A%09oc%20extract%20-n%20%22%24METADATA_KUBE_NAMESPACE%22%20--kubeconfig%20%22%24BOOTSTRAP_KUBECONFIG_FILE_PATH%22%20%22secret%2F%24%7BIBM_MACHINE_METADATA_PREFIX%7D-%24%7BKUBELET_HOSTNAME_OVERRIDE%7D%22%20--to%3D%22%24IBM_MACHINE_METADATA_DIRECTORY%22%20--confirm%0A%09if%20%5B%5B%20-f%20%22%24%7BIBM_MACHINE_METADATA_DIRECTORY%7D%2Fotp%22%20%5D%5D%20%26%26%20%5B%5B%20-f%20%22%24%7BIBM_MACHINE_METADATA_DIRECTORY%7D%2Fworkerid%22%20%5D%5D%20%26%26%20%5B%5B%20-f%20%22%24%7BIBM_MACHINE_METADATA_DIRECTORY%7D%2Faccountid%22%20%5D%5D%20%26%26%0A%09%09%5B%5B%20-f%20%22%24%7BIBM_MACHINE_METADATA_DIRECTORY%7D%2Fclusterid%22%20%5D%5D%20%26%26%20%5B%5B%20-f%20%22%24%7BIBM_MACHINE_METADATA_DIRECTORY%7D%2Fproviderid%22%20%5D%5D%3B%20then%0A%09%09break%0A%09fi%0A%09%23TODO%3A%20ADD%20BASIC%20CALL%20TO%20BOOTSTRAP%20TO%20ENSURE%20OTP%20IS%20UP%20TO%20DATE%0A%09sleep%2060%0Adone%0Aprintf%20%22%24%7BKUBELET_HOSTNAME_OVERRIDE%7D%22%20%3E%22%24%7BIBM_MACHINE_METADATA_DIRECTORY%7D%2FKUBELET_HOSTNAME_OVERRIDE%22%0A%0AIBM_MACHINE_METADATA_ENVFILE%3D%22%2Fetc%2Fsysconfig%2Fibmmachinemetadataenvfile%22%0Arm%20-f%20%22%24IBM_MACHINE_METADATA_ENVFILE%22%0Atouch%20%22%24IBM_MACHINE_METADATA_ENVFILE%22%0Afor%20fullfilepath%20in%20%22%24%7BIBM_MACHINE_METADATA_DIRECTORY%7D%2F%22*%3B%20do%0A%09file_basename%3D%22%24%7Bfullfilepath%23%23*%2F%7D%22%0A%09echo%20%22%24%7Bfile_basename%7D%3D%5C%22%24(cat%20%24fullfilepath)%5C%22%22%20%3E%3E%22%24IBM_MACHINE_METADATA_ENVFILE%22%0Adone%0A%0Asource%20%22%24IBM_MACHINE_METADATA_ENVFILE%22%0AKUBELET_CONF_PATH%3D%2Fetc%2Fkubernetes%2Fkubelet.conf%0Aif%20grep%20%22providerID%22%20%22%24KUBELET_CONF_PATH%22%3B%20then%0A%09sed%20-i%20%22s%2F%5EproviderID%3A.*%2FproviderID%3A%20%24%7Bproviderid%7D%2Fg%22%0Aelse%0A%09echo%20%22providerID%3A%20%24providerid%22%20%3E%3E%22%24KUBELET_CONF_PATH%22%0Afi
+                  filesystem: root
+                  mode: 493
+                  path: /usr/local/bin/ibm-metadata-gatherer
+            systemd:
+              units:
+                - contents: |
+                    [Unit]
+                    Description=gather metadata for worker
+                    Before=ibm-locate-secondary-storage.service kubelet.service
+                    After=network-online.target
+                    ConditionPathExists=!/etc/sysconfig/ibmmachinemetadataenvfile
+
+
+                    [Service]
+                    Type=oneshot
+                    Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+                    ExecStart=/usr/local/bin/ibm-metadata-gatherer
+                    RemainAfterExit=yes
+
+                    [Install]
+                    WantedBy=multi-user.target
+                  enabled: true
+                  name: ibm-metadata-gatherer.service
+                - contents: |
+                    [Unit]
+                    Description=Kubernetes Kubelet
+                    Wants=rpc-statd.service network-online.target crio.service
+                    After=network-online.target crio.service
+
+                    [Service]
+                    Type=notify
+                    ExecStartPre=/bin/mkdir --parents /etc/kubernetes/manifests
+                    ExecStartPre=/bin/rm -f /var/lib/kubelet/cpu_manager_state
+                    Environment="KUBELET_LOG_LEVEL=3"
+                    EnvironmentFile=/etc/os-release
+                    EnvironmentFile=/etc/sysconfig/ibmmachinemetadataenvfile
+                    EnvironmentFile=-/etc/kubernetes/kubelet-workaround
+                    EnvironmentFile=-/etc/kubernetes/kubelet-env
+                    ExecStart=/usr/bin/hyperkube \
+                        kubelet \
+                          --config=/etc/kubernetes/kubelet.conf \
+                          --bootstrap-kubeconfig=/etc/kubernetes/kubeconfig \
+                          --kubeconfig=/var/lib/kubelet/kubeconfig \
+                          --container-runtime=remote \
+                          --container-runtime-endpoint=/var/run/crio/crio.sock \
+                          --runtime-cgroups=/system.slice/crio.service \
+                          --node-labels=node-role.kubernetes.io/worker,node.openshift.io/os_id=${ID} \
+                          --minimum-container-ttl-duration=6m0s \
+                          --volume-plugin-dir=/etc/kubernetes/kubelet-plugins/volume/exec \
+                          --cloud-provider=external \
+                          --hostname-override=${KUBELET_HOSTNAME_OVERRIDE} \
+                           \
+                          --pod-infra-container-image=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:5a5340e9f5a326ca05e038b2997c10fdb5b9da2ab4c11d59a37b2415665f311b \
+                          --v=${KUBELET_LOG_LEVEL}
+                    Restart=always
+                    RestartSec=10
+
+                    [Install]
+                    WantedBy=multi-user.target
+                  enabled: true
+                  name: kubelet.service
+    kind: ConfigMap
+    metadata:
+      name: 98-ibm-machineconfig-kubelet
+      namespace: master-{{managed_cluster_tail}}

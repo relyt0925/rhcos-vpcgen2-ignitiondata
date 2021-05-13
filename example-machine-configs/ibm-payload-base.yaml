@@ -1,0 +1,255 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 97-ibm-machineconfig-base
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  fips: true
+  config:
+    ignition:
+      version: 2.2.0
+    storage:
+      files:
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaApzZXQgLXgKU0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0RJUkVDVE9SWT0vZXRjL3N5c2NvbmZpZy9pYm1zZWNvbmRhcnlzdG9yYWdlCmlmIFtbIC16ICIkU0VDT05EQVJZX1NUT1JBR0VfREVWSUNFIiBdXTsgdGhlbgoJZWNobyAiY2Fubm90IGNvbnRpbnVlIHdpdGhvdXQgYSBzZWNvbmRhcnkgc3RvcmFnZSBkZXZpY2Ugc3BlY2lmaWVkIgoJZXhpdCAwCmZpCgppZiBbWyAteiAiJERFVklDRV9NT1VOVF9QQVRIIiBdXTsgdGhlbgoJZWNobyAidXNpbmcgZGVmYXVsdCBkZXZpY2UgbW91bnQgcGF0aCIKCURFVklDRV9NT1VOVF9QQVRIPS92YXIvZGF0YQpmaQppZiBbWyAteiAiJERFVklDRV9NT1VOVF9TWVNURU1EX05BTUUiIF1dOyB0aGVuCgllY2hvICJ1c2luZyBkZWZhdWx0IGRldmljZSBzeXN0ZW1kIG5hbWUiCglERVZJQ0VfTU9VTlRfU1lTVEVNRF9OQU1FPXZhci1kYXRhLm1vdW50CmZpCgplY2hvICJjcmVhdGluZyBmaWxlc3lzdGVtIG9uIGRldmljZSBhbmQgbW91bnRpbmcgaXQgYXQgcHJvcGVyIGxvY2F0aW9uIgpta2ZzIC10IGV4dDQgIiR7U0VDT05EQVJZX1NUT1JBR0VfREVWSUNFfSIKY2F0IDw8RU9GID4vZXRjL3N5c3RlbWQvc3lzdGVtLyIkREVWSUNFX01PVU5UX1NZU1RFTURfTkFNRSIKW1VuaXRdCkRlc2NyaXB0aW9uPU1vdW50IGRyaXZlCgpbTW91bnRdCldoYXQ9JHtTRUNPTkRBUllfU1RPUkFHRV9ERVZJQ0V9CldoZXJlPSR7REVWSUNFX01PVU5UX1BBVEh9ClR5cGU9ZXh0NApPcHRpb25zPXJlbGF0aW1lCgpbSW5zdGFsbF0KV2FudGVkQnk9bXVsdGktdXNlci50YXJnZXQKRU9GCnN5c3RlbWN0bCBkYWVtb24tcmVsb2FkCnN5c3RlbWN0bCBlbmFibGUgIiRERVZJQ0VfTU9VTlRfU1lTVEVNRF9OQU1FIgpzeXN0ZW1jdGwgc3RhcnQgIiRERVZJQ0VfTU9VTlRfU1lTVEVNRF9OQU1FIgoKI21ha2UgbmVjZXNzYXJ5IGRpcmVjdG9yaWVzCmJhc2ggL3Vzci9sb2NhbC9iaW4vaWJtLXJvb3QtZGlyLXBlcm1pc3Npb25zLnNoClBPRF9MT0dTX01PVU5UX05BTUU9dmFyLWxvZy1wb2RzLm1vdW50CnN5c3RlbWN0bCBlbmFibGUgIiRQT0RfTE9HU19NT1VOVF9OQU1FIgoKdG91Y2ggIiRTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZL3NldHVwZXhlY3V0ZWQiCmV4aXQgMAo=
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-ext4-format.sh
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaApzZXQgLWUKREVWSUNFUz0kKGxzYmxrIC1KIC0tYnl0ZXMpCgpCTE9DS19ERVZJQ0VfTEVOR1RIPSQoZWNobyAiJHtERVZJQ0VTfSIgfCBqcSAnLltdIHwgbGVuZ3RoICcpCgojIGZpcnN0IGlmIGNvbmRpdGlvbmFsIGNoZWNrcyBpZiB0aGVyZSBhcmUgZXhhY3RseSAwIGNoaWxkcmVuLCB0aGUgbW91bnRwb2ludCBpcyBudWxsIGZvciB0aGUgbWFpbiBkZXZpY2UsIGFuZCB0aGUgbmFtZSBpcyBub3QgbnVsbAojIHRoZSBlbGlmIGNvbmRpdGlvbmFsIGNoZWNrcyBpZiB0aGUgZmlyc3QgZGV2aWNlIGluZGV4IGlzIG5vdCBjaGVja2VkIChPUyBpcyBmaXJzdCBkZXZpY2UpLCB0aGVyZSBpcyBleGFjdGx5IDEgY2hpbGQuCiMgQm90aCB0aGUgY2hpbGQgYW5kIG1haW4gZGV2aWNlIG51bGwgcG9pbnQgaXMgbnVsbCBhbmQgdGhlIGRldmljZSBuYW1lIGlzIG5vdCBudWxsLgojIEJvdGggY2hlY2tzIHdpbGwgbG9vayB0byBtYWtlIHN1cmUgdGhlIHNpemUgb2YgdGhlIGRldmljZSBpcyBncmVhdGVyIHRoYW4gb3IgZXF1YWwgdG8gMjUgR0IKZm9yIGMgaW4gJChzZXEgMCAiJHtCTE9DS19ERVZJQ0VfTEVOR1RIfSIpOyBkbwoJaWYgW1sgIiQoZWNobyAiJHtERVZJQ0VTfSIgfCBqcSAiLmJsb2NrZGV2aWNlc1ske2N9XS5jaGlsZHJlbiB8IGxlbmd0aCIpIiAtZXEgMCBdXTsgdGhlbgoJCWlmIFtbICIkKGVjaG8gIiR7REVWSUNFU30iIHwganEgIi5ibG9ja2RldmljZXNbJHtjfV0ubW91bnRwb2ludCIpIiA9PSAibnVsbCIgXV0gJiYgW1sgIiQoZWNobyAiJHtERVZJQ0VTfSIgfCBqcSAiLmJsb2NrZGV2aWNlc1ske2N9XS5zaXplIiB8IHRyIC1kICJcIiIpIiAtZ2UgMjUwMDAwMDAwMDAgXV07IHRoZW4KCQkJUkVTRVJWRURfREVWSUNFPSQoZWNobyAiJHtERVZJQ0VTfSIgfCBqcSAiLmJsb2NrZGV2aWNlc1ske2N9XS5uYW1lIiB8IHRyIC1kICJcIiIpCgkJCWlmIFtbICIke1JFU0VSVkVEX0RFVklDRX0iID09ICJudWxsIiBdXTsgdGhlbgoJCQkJY29udGludWUKCQkJZmkKCQkJZWNobyAtbiAiL2Rldi8ke1JFU0VSVkVEX0RFVklDRX0iCgkJCWV4aXQgMAoJCWZpCgllbGlmIFtbICR7Y30gIT0gMCAmJiAiJChlY2hvICIke0RFVklDRVN9IiB8IGpxICIuYmxvY2tkZXZpY2VzWyR7Y31dLmNoaWxkcmVuIHwgbGVuZ3RoIikiIC1lcSAxIF1dOyB0aGVuCgkJaWYgW1sgIiQoZWNobyAiJHtERVZJQ0VTfSIgfCBqcSAiLmJsb2NrZGV2aWNlc1ske2N9XS5tb3VudHBvaW50IikiID09ICJudWxsIiAmJiAiJChlY2hvICIke0RFVklDRVN9IiB8IGpxICIuYmxvY2tkZXZpY2VzWyR7Y31dLmNoaWxkcmVuWzBdLm1vdW50cG9pbnQiKSIgPT0gIm51bGwiIF1dICYmIFtbICIkKGVjaG8gIiR7REVWSUNFU30iIHwganEgIi5ibG9ja2RldmljZXNbJHtjfV0uc2l6ZSIgfCB0ciAtZCAiXCIiKSIgLWdlIDI1MDAwMDAwMDAwIF1dOyB0aGVuCgkJCVJFU0VSVkVEX0RFVklDRT0kKGVjaG8gIiR7REVWSUNFU30iIHwganEgIi5ibG9ja2RldmljZXNbJHtjfV0uY2hpbGRyZW5bMF0ubmFtZSIgfCB0ciAtZCAiXCIiKQoJCQlpZiBbWyAiJHtSRVNFUlZFRF9ERVZJQ0V9IiA9PSAibnVsbCIgXV07IHRoZW4KCQkJCWNvbnRpbnVlCgkJCWZpCgkJCWVjaG8gLW4gIi9kZXYvJHtSRVNFUlZFRF9ERVZJQ0V9IgoJCQlleGl0IDAKCQlmaQoJZmkKZG9uZQo=
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-find-secondary-storage.sh
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaAojIHRoaXMgc2NyaXB0IHVsdGltYXRlbHkgd2lsbCBmZWVkIHRoZSBuZWNlc3NhcnkgZGF0YSB0byBkb3duc3RyZWFtIHVuaXRzIHRoYXQgd2lsbCBwZXJmb3JtIHRoZSBkaXNrIGZvcm1hdHRpbmcvbW91bnRpbmcKc2V0IC14CmlmIFtbIC16ICIkU0VDT05EQVJZX1NUT1JBR0VfRk9STUFUVElOR19TVFJBVEVHWSIgXV07IHRoZW4KCWVjaG8gInVzaW5nIGRlZmF1bHQgc3RyYXRlZ3kiCglTRUNPTkRBUllfU1RPUkFHRV9GT1JNQVRUSU5HX1NUUkFURUdZPSJleHQ0IgpmaQoKZWNobyAiaW5pdGlhbGl6aW5nIHNlY29uZGFyeSBzdG9yYWdlIHN5c2NvbmZpZyBtZXRhZGF0YSBkaXJlY3RvcnkiClNFQ09OREFSWV9TVE9SQUdFX1NZU0NPTkZJR19ESVJFQ1RPUlk9L2V0Yy9zeXNjb25maWcvaWJtc2Vjb25kYXJ5c3RvcmFnZQpTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRU5WRklMRT0iJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS9pYm1zZWNvbmRhcnlzdG9yYWdlZW52ZmlsZSIKcm0gLXJmICIkU0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0RJUkVDVE9SWSIKbWtkaXIgLXAgIiRTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZIgp0b3VjaCAiJFNFQ09OREFSWV9TVE9SQUdFX1NZU0NPTkZJR19FTlZGSUxFIgoKZWNobyAiZGV0ZXJtaW5pbmcgc2Vjb25kYXJ5IGVuY3J5cHRpb24gZGV2aWNlIgppZiBbWyAteiAiJFNFQ09OREFSWV9TVE9SQUdFX0RFVklDRSIgXV07IHRoZW4KCWVjaG8gInNjYW5uaW5nIGZvciBjYW5kaWRhdGUgc2Vjb25kYXJ5IHN0b3JhZ2UgZGV2aWNlcyIKCVNFQ09OREFSWV9TVE9SQUdFX0RFVklDRT0kKGJhc2ggL3Vzci9sb2NhbC9iaW4vaWJtLWZpbmQtc2Vjb25kYXJ5LXN0b3JhZ2Uuc2gpCmZpCgppZiBbWyAtbiAiJFNFQ09OREFSWV9TVE9SQUdFX0RFVklDRSIgXV07IHRoZW4KCWVjaG8gIndyaXRpbmcgbWV0YWRhdGEgdGhhdCB3aWxsIHRyaWdnZXIgZm9ybWF0dGluZyBvZiBzZWNvbmRhcnkgc3RvcmFnZSBkZXZpY2UgJFNFQ09OREFSWV9TVE9SQUdFX0RFVklDRSIKCWVjaG8gIlNFQ09OREFSWV9TVE9SQUdFX0RFVklDRT1cIiR7U0VDT05EQVJZX1NUT1JBR0VfREVWSUNFfVwiIiA+PiIkU0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0VOVkZJTEUiCgl0b3VjaCAiJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS8ke1NFQ09OREFSWV9TVE9SQUdFX0ZPUk1BVFRJTkdfU1RSQVRFR1l9IgpmaQo=
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-locate-secondary-storage.sh
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaApTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZPS9ldGMvc3lzY29uZmlnL2libXNlY29uZGFyeXN0b3JhZ2UKaWYgW1sgLXogIiRTRUNPTkRBUllfU1RPUkFHRV9ERVZJQ0UiIF1dOyB0aGVuCgllY2hvICJjYW5ub3QgY29udGludWUgd2l0aG91dCBhIHNlY29uZGFyeSBzdG9yYWdlIGRldmljZSBzcGVjaWZpZWQiCglleGl0IDAKZmkKaWYgISBbWyAtZiAiJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS9sdWtza2V5IiBdXTsgdGhlbgoJZWNobyAiY3JlYXRpbmcgcGFzc3BocmFzZSBmb3Iga2V5IgoJS0VZPSQoZGQgaWY9Ii9kZXYvdXJhbmRvbSIgYnM9NjQgY291bnQ9MSBpZmxhZz1mdWxsYmxvY2spCgkjIHNoZWxsY2hlY2sgZGlzYWJsZT1TQzIwNTkKCXByaW50ZiAiJEtFWSIgPiIke1NFQ09OREFSWV9TVE9SQUdFX1NZU0NPTkZJR19ESVJFQ1RPUll9L2x1a3NrZXkiCgljaG1vZCAwNjAwICIke1NFQ09OREFSWV9TVE9SQUdFX1NZU0NPTkZJR19ESVJFQ1RPUll9L2x1a3NrZXkiCmZpCmVjaG8gInN0b3JpbmcgbHVrcyBrZXkgaW4gY2x1c3RlciIKbHVrc19lbmNyeXB0aW9uX3NlY3JldF9uYW1lc3BhY2U9b3BlbnNoaWZ0LWluZnJhCiMgc2hlbGxjaGVjayBkaXNhYmxlPVNDMjE1NAppZiBbWyAteiAiJEtVQkVMRVRfTk9ERV9JUCIgXV07IHRoZW4KCWVjaG8gImNhbm5vdCBjb250aW51ZSB3aXRob3V0IEtVQkVMRVRfTk9ERV9JUCIKCWV4aXQgMApmaQppZiBbWyAteiAiJGx1a3NfZW5jcnlwdGlvbl9zZWNyZXRfbmFtZXNwYWNlIiBdXTsgdGhlbgoJZWNobyAiY2Fubm90IGNvbnRpbnVlIHdpdGhvdXQgbHVrcyBzZWNyZXQgbmFtZXNhcGNlIgoJZXhpdCAwCmZpCmx1a3Nfc2VjcmV0X2Z1bGxfbmFtZT0ibHVrcy0kS1VCRUxFVF9OT0RFX0lQIgojIHNoZWxsY2hlY2sgZGlzYWJsZT1TQzIwNTkKU0VDT05EQVJZX1NUT1JBR0VfREVWSUNFX0JBU0U2ND0kKHByaW50ZiAiJFNFQ09OREFSWV9TVE9SQUdFX0RFVklDRSIgfCBiYXNlNjQgLXcgMCkKIyBzaGVsbGNoZWNrIGRpc2FibGU9U0MyMDAyCkxVS1NfS0VZX0JBU0U2ND0kKGNhdCAiJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS9sdWtza2V5IiB8IGJhc2U2NCAtdyAwKQpjYXQgPDxFT0YgPi90bXAvbHVrc3NlY3JldAphcGlWZXJzaW9uOiB2MQpraW5kOiBTZWNyZXQKbWV0YWRhdGE6CiAgbmFtZTogJGx1a3Nfc2VjcmV0X2Z1bGxfbmFtZQogIG5hbWVzcGFjZTogJGx1a3NfZW5jcnlwdGlvbl9zZWNyZXRfbmFtZXNwYWNlCnR5cGU6IGlibS1jbG91ZC5rOHMuaW8vbHVrcy1lbmNyeXB0aW9uLWluZm8KZGF0YToKICBkZXZpY2VzOiAkU0VDT05EQVJZX1NUT1JBR0VfREVWSUNFX0JBU0U2NAogIGtleTogJExVS1NfS0VZX0JBU0U2NApFT0YKQk9PVFNUUkFQX0tVQkVDT05GSUdfRklMRV9QQVRIPSIvZXRjL2t1YmVybmV0ZXMva3ViZWNvbmZpZyIKd2hpbGUgdHJ1ZTsgZG8KCWlmIG9jIC0ta3ViZWNvbmZpZyAiJEJPT1RTVFJBUF9LVUJFQ09ORklHX0ZJTEVfUEFUSCIgYXBwbHkgLWYgL3RtcC9sdWtzc2VjcmV0OyB0aGVuCgkJZWNobyAic2VjcmV0IHN1Y2Nlc3NmdWxseSBhcHBsaWVkIgoJCWJyZWFrCglmaQoJc2xlZXAgNjAKZG9uZQplY2hvICJjcmVhdGluZyBsdWtzIGhlYWRlciIKY3J5cHRzZXR1cCBsdWtzRm9ybWF0IC0ta2V5LXNpemU9MjU2IC0tYmF0Y2gtbW9kZSAtLWhhc2ggc2hhNTEyIC0tdmVyYm9zZSAiJFNFQ09OREFSWV9TVE9SQUdFX0RFVklDRSIgIiR7U0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0RJUkVDVE9SWX0vbHVrc2tleSIKZWNobyAib3BlbmluZyBsdWtzIGRldmljZSBtYXBwZXIiCkxVS1NfREVWSUNFX01BUFBFUl9OQU1FPWRvY2tlcl9kYXRhCkRFVklDRV9NT1VOVF9QQVRIPS92YXIvZGF0YQpERVZJQ0VfTU9VTlRfU1lTVEVNRF9OQU1FPXZhci1kYXRhLm1vdW50CkJMS19JRF9PVVRQVVQ9JChibGtpZCAtcyBVVUlEIC1vIHZhbHVlICIkU0VDT05EQVJZX1NUT1JBR0VfREVWSUNFIikKY3J5cHRzZXR1cCBsdWtzT3BlbiBVVUlEPSIkQkxLX0lEX09VVFBVVCIgIiRMVUtTX0RFVklDRV9NQVBQRVJfTkFNRSIgLS1rZXktZmlsZSAiJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS9sdWtza2V5IgplY2hvICJmb3JtYXR0aW5nIGZpbGVzeXN0ZW0gb24gbHVrcyBtYXBwZXIiCm1rZnMgLXQgZXh0NCAvZGV2L21hcHBlci8iJExVS1NfREVWSUNFX01BUFBFUl9OQU1FIgpjYXQgPDxFT0YgPi9ldGMvc3lzdGVtZC9zeXN0ZW0vIiRERVZJQ0VfTU9VTlRfU1lTVEVNRF9OQU1FIgpbVW5pdF0KRGVzY3JpcHRpb249TW91bnQgZHJpdmUKCltNb3VudF0KV2hhdD0vZGV2L21hcHBlci8ke0xVS1NfREVWSUNFX01BUFBFUl9OQU1FfQpXaGVyZT0ke0RFVklDRV9NT1VOVF9QQVRIfQpUeXBlPWV4dDQKT3B0aW9ucz1ub2ZhaWwscmVsYXRpbWUKCltJbnN0YWxsXQpXYW50ZWRCeT1tdWx0aS11c2VyLnRhcmdldApFT0YKUE9EX0xPR1NfTU9VTlRfTkFNRT12YXItbG9nLXBvZHMubW91bnQKY2F0IDw8RU9GID4vdXNyL2xvY2FsL2Jpbi9zZXR1cGx1a3Ntb3VudAojIS91c3IvYmluL2VudiBiYXNoCmNyeXB0c2V0dXAgbHVrc09wZW4gVVVJRD0iJHtCTEtfSURfT1VUUFVUfSIgJHtMVUtTX0RFVklDRV9NQVBQRVJfTkFNRX0gLS1rZXktZmlsZSAiJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS9sdWtza2V5IgpzeXN0ZW1jdGwgc3RhcnQgJHtERVZJQ0VfTU9VTlRfU1lTVEVNRF9OQU1FfQpzeXN0ZW1jdGwgc3RhcnQgJHtQT0RfTE9HU19NT1VOVF9OQU1FfQpybSAtZiAiJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS9sdWtza2V5IgpleGl0IDAKRU9GCmNhdCA8PEVPRiA+L3Vzci9sb2NhbC9iaW4vZmV0Y2hsdWtza2V5CiMhL3Vzci9iaW4vZW52IGJhc2gKd2hpbGUgdHJ1ZTsgZG8KCWlmIGt1YmVjdGwgZ2V0IC0ta3ViZWNvbmZpZyAiJEJPT1RTVFJBUF9LVUJFQ09ORklHX0ZJTEVfUEFUSCIgLW4gIiRsdWtzX2VuY3J5cHRpb25fc2VjcmV0X25hbWVzcGFjZSIgc2VjcmV0ICIkbHVrc19zZWNyZXRfZnVsbF9uYW1lIiAtbyBqc29ucGF0aD0ney5kYXRhLmtleX0nID4gIiR7U0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0RJUkVDVE9SWX0vbHVrc2tleTY0IjsgdGhlbgoJICBjYXQgIiR7U0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0RJUkVDVE9SWX0vbHVrc2tleTY0IiB8IGJhc2U2NCAtZCA+ICIke1NFQ09OREFSWV9TVE9SQUdFX1NZU0NPTkZJR19ESVJFQ1RPUll9L2x1a3NrZXkiCgkgIGJyZWFrCglmaQoJaWYga3ViZWN0bCBnZXQgLS1rdWJlY29uZmlnIC92YXIvbGliL2t1YmVsZXQva3ViZWNvbmZpZyAtbiAiJGx1a3NfZW5jcnlwdGlvbl9zZWNyZXRfbmFtZXNwYWNlIiBzZWNyZXQgIiRsdWtzX3NlY3JldF9mdWxsX25hbWUiIC1vIGpzb25wYXRoPSd7LmRhdGEua2V5fScgPiAiJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS9sdWtza2V5NjQiOyB0aGVuCgkgIGNhdCAiJHtTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZfS9sdWtza2V5NjQiIHwgYmFzZTY0IC1kID4gIiR7U0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0RJUkVDVE9SWX0vbHVrc2tleSIKCSAgYnJlYWsKCWZpCglzbGVlcCA2MApkb25lCmV4aXQgMApFT0YKY2htb2QgMDcwMCAvdXNyL2xvY2FsL2Jpbi9mZXRjaGx1a3NrZXkKY2htb2QgMDcwMCAvdXNyL2xvY2FsL2Jpbi9zZXR1cGx1a3Ntb3VudApjaG1vZCAwNjQ0IC9ldGMvc3lzdGVtZC9zeXN0ZW0vIiRERVZJQ0VfTU9VTlRfU1lTVEVNRF9OQU1FIgpjYXQgPDxFT0YgPi9ldGMvc3lzdGVtZC9zeXN0ZW0vZGVjcnlwdC1zZWNvbmRhcnktc3RvcmFnZS5zZXJ2aWNlCltVbml0XQpEZXNjcmlwdGlvbj1BdXRvbWF0ZSBtb3VudGluZyBvZiB0aGUgZGV2aWNlCkFmdGVyPW5ldHdvcmstb25saW5lLnRhcmdldCBsb2NhbC1mcy50YXJnZXQKQmVmb3JlPWt1YmVsZXQuc2VydmljZSBwb2RtYW4uc2VydmljZSBjcmlvLXdpcGUuc2VydmljZSBjcmlvLnNlcnZpY2UKCgpbU2VydmljZV0KVHlwZT1vbmVzaG90CkVudmlyb25tZW50PSJQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2JpbiIKRXhlY1N0YXJ0PS91c3IvbG9jYWwvYmluL2ZldGNobHVrc2tleQpFeGVjU3RhcnRQb3N0PS91c3IvbG9jYWwvYmluL3NldHVwbHVrc21vdW50ClJlbWFpbkFmdGVyRXhpdD15ZXMKCltJbnN0YWxsXQpXYW50ZWRCeT1tdWx0aS11c2VyLnRhcmdldApFT0YKY2F0IDw8RU9GID4vdXNyL2xvY2FsL2Jpbi9jbGVhbi1zZWNvbmRhcnktc3RvcmFnZS1rZXlzLnNoCiMhL3Vzci9iaW4vZW52IGJhc2gKcm0gLWYgIiR7U0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0RJUkVDVE9SWX0vbHVrc2tleSIgIiR7U0VDT05EQVJZX1NUT1JBR0VfU1lTQ09ORklHX0RJUkVDVE9SWX0vbHVrc2tleTY0IgpleGl0IDAKRU9GCmNhdCA8PEVPRiA+L2V0Yy9zeXN0ZW1kL3N5c3RlbS9jbGVhbi1zZWNvbmRhcnktc3RvcmFnZS1rZXlzLnNlcnZpY2UKW1VuaXRdCkRlc2NyaXB0aW9uPUF1dG9tYXRlIG1vdW50aW5nIG9mIHRoZSBkZXZpY2UKQWZ0ZXI9ZGVjcnlwdC1zZWNvbmRhcnktc3RvcmFnZS5zZXJ2aWNlCgpbU2VydmljZV0KVHlwZT1vbmVzaG90CkVudmlyb25tZW50PSJQQVRIPS91c3IvbG9jYWwvc2JpbjovdXNyL2xvY2FsL2JpbjovdXNyL3NiaW46L3Vzci9iaW46L3NiaW46L2JpbiIKRXhlY1N0YXJ0PS91c3IvbG9jYWwvYmluL2NsZWFuLXNlY29uZGFyeS1zdG9yYWdlLWtleXMuc2gKUmVtYWluQWZ0ZXJFeGl0PXllcwoKW0luc3RhbGxdCldhbnRlZEJ5PW11bHRpLXVzZXIudGFyZ2V0CkVPRgpjaG1vZCAwNjQ0IC9ldGMvc3lzdGVtZC9zeXN0ZW0vZGVjcnlwdC1zZWNvbmRhcnktc3RvcmFnZS5zZXJ2aWNlCmNobW9kIDA2NDQgL2V0Yy9zeXN0ZW1kL3N5c3RlbS9jbGVhbi1zZWNvbmRhcnktc3RvcmFnZS1rZXlzLnNlcnZpY2UKY2htb2QgMDcwMCAvdXNyL2xvY2FsL2Jpbi9jbGVhbi1zZWNvbmRhcnktc3RvcmFnZS1rZXlzLnNoCnN5c3RlbWN0bCBkYWVtb24tcmVsb2FkCnN5c3RlbWN0bCBlbmFibGUgZGVjcnlwdC1zZWNvbmRhcnktc3RvcmFnZS5zZXJ2aWNlCnN5c3RlbWN0bCBlbmFibGUgY2xlYW4tc2Vjb25kYXJ5LXN0b3JhZ2Uta2V5cy5zZXJ2aWNlCnN5c3RlbWN0bCBzdGFydCAiJERFVklDRV9NT1VOVF9TWVNURU1EX05BTUUiCnN5c3RlbWN0bCBzdGFydCBjbGVhbi1zZWNvbmRhcnktc3RvcmFnZS1rZXlzLnNlcnZpY2UKCiNtYWtlIG5lY2Vzc2FyeSBkaXJlY3RvcmllcwpiYXNoIC91c3IvbG9jYWwvYmluL2libS1yb290LWRpci1wZXJtaXNzaW9ucy5zaAoKdG91Y2ggIiRTRUNPTkRBUllfU1RPUkFHRV9TWVNDT05GSUdfRElSRUNUT1JZL3NldHVwZXhlY3V0ZWQiCmV4aXQgMAo=
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-luks-encryption.sh
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaApzZXQgLXgKREVGQVVMVF9JTlRFUkZBQ0U9JChpcCAtNCByb3V0ZSBscyB8IGdyZXAgZGVmYXVsdCB8IGhlYWQgLW4gMSB8IGdyZXAgLVBvICcoPzw9ZGV2ICkoXFMrKScpCldPUktFUl9TVUJORVQ9JChpcCBhZGRyIHNob3cgZGV2ICIkREVGQVVMVF9JTlRFUkZBQ0UiIHwgZ3JlcCAiaW5ldCAiIHwgYXdrICd7cHJpbnQgJDJ9JyB8IGF3ayAnTlI9PTF7cHJpbnQgJDF9JykKV09SS0VSX0lQPSQoZWNobyAiJFdPUktFUl9TVUJORVQiIHwgYXdrIC1GIC8gJ3twcmludCAkMX0nKQpLVUJFTEVUX0hPU1ROQU1FX09WRVJSSURFPSIkV09SS0VSX0lQIgpCT09UU1RSQVBfS1VCRUNPTkZJR19GSUxFX1BBVEg9Ii9ldGMva3ViZXJuZXRlcy9rdWJlY29uZmlnIgp3aGlsZSB0cnVlOyBkbwoJSUJNX01BQ0hJTkVfTUVUQURBVEFfUFJFRklYPSJpYm0tbWFjaGluZW1ldGFkYXRhIgoJSUJNX01BQ0hJTkVfTUVUQURBVEFfRElSRUNUT1JZPSIvZXRjL3N5c2NvbmZpZy9pYm1tYWNoaW5lbWV0YWRhdGEiCglNRVRBREFUQV9LVUJFX05BTUVTUEFDRT0ib3BlbnNoaWZ0LWluZnJhIgoJbWtkaXIgLXAgIiRJQk1fTUFDSElORV9NRVRBREFUQV9ESVJFQ1RPUlkiCglvYyBleHRyYWN0IC1uICIkTUVUQURBVEFfS1VCRV9OQU1FU1BBQ0UiIC0ta3ViZWNvbmZpZyAiJEJPT1RTVFJBUF9LVUJFQ09ORklHX0ZJTEVfUEFUSCIgImNvbmZpZ21hcC8ke0lCTV9NQUNISU5FX01FVEFEQVRBX1BSRUZJWH0tJHtLVUJFTEVUX0hPU1ROQU1FX09WRVJSSURFfSIgLS10bz0iJElCTV9NQUNISU5FX01FVEFEQVRBX0RJUkVDVE9SWSIgLS1jb25maXJtCglvYyBleHRyYWN0IC1uICIkTUVUQURBVEFfS1VCRV9OQU1FU1BBQ0UiIC0ta3ViZWNvbmZpZyAiJEJPT1RTVFJBUF9LVUJFQ09ORklHX0ZJTEVfUEFUSCIgInNlY3JldC8ke0lCTV9NQUNISU5FX01FVEFEQVRBX1BSRUZJWH0tJHtLVUJFTEVUX0hPU1ROQU1FX09WRVJSSURFfSIgLS10bz0iJElCTV9NQUNISU5FX01FVEFEQVRBX0RJUkVDVE9SWSIgLS1jb25maXJtCglpZiBbWyAtZiAiJHtJQk1fTUFDSElORV9NRVRBREFUQV9ESVJFQ1RPUll9L3Byb3ZpZGVyaWQiIF1dOyB0aGVuCgkJYnJlYWsKCWZpCglzbGVlcCA2MApkb25lCiMgc2hlbGxjaGVjayBkaXNhYmxlPVNDMjA1OQpwcmludGYgIiR7S1VCRUxFVF9IT1NUTkFNRV9PVkVSUklERX0iID4iJHtJQk1fTUFDSElORV9NRVRBREFUQV9ESVJFQ1RPUll9L0tVQkVMRVRfTk9ERV9JUCIKCklCTV9NQUNISU5FX01FVEFEQVRBX0VOVkZJTEU9Ii9ldGMvc3lzY29uZmlnL2libW1hY2hpbmVtZXRhZGF0YWVudmZpbGUiCnJtIC1mICIkSUJNX01BQ0hJTkVfTUVUQURBVEFfRU5WRklMRSIKdG91Y2ggIiRJQk1fTUFDSElORV9NRVRBREFUQV9FTlZGSUxFIgpmb3IgZnVsbGZpbGVwYXRoIGluICIke0lCTV9NQUNISU5FX01FVEFEQVRBX0RJUkVDVE9SWX0vIio7IGRvCglmaWxlX2Jhc2VuYW1lPSIke2Z1bGxmaWxlcGF0aCMjKi99IgoJZWNobyAiJHtmaWxlX2Jhc2VuYW1lfT1cIiQoY2F0ICIkZnVsbGZpbGVwYXRoIilcIiIgPj4iJElCTV9NQUNISU5FX01FVEFEQVRBX0VOVkZJTEUiCmRvbmUKCiMgc2hlbGxjaGVjayBkaXNhYmxlPVNDMTA5MApzb3VyY2UgIiRJQk1fTUFDSElORV9NRVRBREFUQV9FTlZGSUxFIgpLVUJFTEVUX0NPTkZfUEFUSD0vZXRjL2t1YmVybmV0ZXMva3ViZWxldC5jb25mCmlmIGdyZXAgInByb3ZpZGVySUQiICIkS1VCRUxFVF9DT05GX1BBVEgiOyB0aGVuCiAgIyBzaGVsbGNoZWNrIGRpc2FibGU9U0MyMTU0CglzZWQgLWkgLWUgInMvXnByb3ZpZGVySUQ6LiovcHJvdmlkZXJJRDogJHtwcm92aWRlcmlkfS9nIiAiJEtVQkVMRVRfQ09ORl9QQVRIIgplbHNlCgllY2hvICJwcm92aWRlcklEOiAkcHJvdmlkZXJpZCIgPj4iJEtVQkVMRVRfQ09ORl9QQVRIIgpmaQpIQVBST1hZX0tVQkVDT05GSUdfRklMRVBBVEg9L2V0Yy9rdWJlcm5ldGVzL2hhcHJveHkta3ViZWNvbmZpZwpBRFZFUlRJU0VEX0lQX0FERFJFU1M9MTcyLjIwLjAuMQpTRUNVUkVfUE9SVD0yMDQwCmNwIC1mICIkQk9PVFNUUkFQX0tVQkVDT05GSUdfRklMRV9QQVRIIiAiJEhBUFJPWFlfS1VCRUNPTkZJR19GSUxFUEFUSCIKc2VkIC1pICAicy9zZXJ2ZXI6Liovc2VydmVyOiBodHRwczpcL1wvJHtBRFZFUlRJU0VEX0lQX0FERFJFU1N9OiR7U0VDVVJFX1BPUlR9L2ciICIkSEFQUk9YWV9LVUJFQ09ORklHX0ZJTEVQQVRIIgo=
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-metadata-gatherer
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaApta2RpciAtcCAvdmFyL2RhdGEva3ViZWxldApta2RpciAtcCAvdmFyL2RhdGEvY3Jpb3J1bnRpbWVzdG9yYWdlCm1rZGlyIC1wIC92YXIvZGF0YS9jcmlvcm9vdHN0b3JhZ2UKbWtkaXIgLXAgL3Zhci9kYXRhL3RtcApta2RpciAtcCAvdmFyL2xvZy9wb2RzCm1rZGlyIC1wIC92YXIvZGF0YS9rdWJlbGV0bG9ncwpzZW1hbmFnZSBmY29udGV4dCAtYSAtZSAvdmFyL2xpYi9rdWJlbGV0IC92YXIvZGF0YS9rdWJlbGV0CnNlbWFuYWdlIGZjb250ZXh0IC1hIC1lIC9ydW4vY29udGFpbmVycy9zdG9yYWdlIC92YXIvZGF0YS9jcmlvcnVudGltZXN0b3JhZ2UKc2VtYW5hZ2UgZmNvbnRleHQgLWEgLWUgL3Zhci9saWIvY29udGFpbmVycy9zdG9yYWdlIC92YXIvZGF0YS9jcmlvcm9vdHN0b3JhZ2UKc2VtYW5hZ2UgZmNvbnRleHQgLWEgLWUgL3Zhci90bXAgL3Zhci9kYXRhL3RtcApzZW1hbmFnZSBmY29udGV4dCAtYSAtZSAvdmFyL2xvZy9wb2RzIC92YXIvZGF0YS9rdWJlbGV0bG9ncwpyZXN0b3JlY29uIC1yIC92YXIvZGF0YS9rdWJlbGV0CnJlc3RvcmVjb24gLXIgL3Zhci9kYXRhL2NyaW9ydW50aW1lc3RvcmFnZQpyZXN0b3JlY29uIC1yIC92YXIvZGF0YS9jcmlvcm9vdHN0b3JhZ2UKcmVzdG9yZWNvbiAtciAvdmFyL2RhdGEvdG1wCnJlc3RvcmVjb24gLXIgL3Zhci9kYXRhL2t1YmVsZXRsb2dzCgojIHN5bWxpbmsgY29kZQpta2RpciAtcCAvdmFyL2xpYi9rdWJlbGV0CmNwIC1yIC92YXIvbGliL2t1YmVsZXQvKiAvdmFyL2RhdGEva3ViZWxldC8Kcm0gLXJmIC92YXIvbGliL2t1YmVsZXQKbG4gLXMgL3Zhci9kYXRhL2t1YmVsZXQgL3Zhci9saWIva3ViZWxldAoKI2JpbmQgbW91bnQgY29kZQpQT0RfTE9HU19NT1VOVF9OQU1FPXZhci1sb2ctcG9kcy5tb3VudApjYXQgPDxFT0YgPi9ldGMvc3lzdGVtZC9zeXN0ZW0vIiRQT0RfTE9HU19NT1VOVF9OQU1FIgpbVW5pdF0KRGVzY3JpcHRpb249UG9kIGxvZ3MgYmluZCBtb3VudApBZnRlcj12YXItZGF0YS5tb3VudApXYW50cz12YXItZGF0YS5tb3VudAoKW01vdW50XQpXaGF0PS92YXIvZGF0YS9rdWJlbGV0bG9ncwpXaGVyZT0vdmFyL2xvZy9wb2RzClR5cGU9bm9uZQpPcHRpb25zPWJpbmQsbm9mYWlsCgpbSW5zdGFsbF0KV2FudGVkQnk9bXVsdGktdXNlci50YXJnZXQKRU9GCnN5c3RlbWN0bCBkYWVtb24tcmVsb2FkCnN5c3RlbWN0bCBzdGFydCAiJFBPRF9MT0dTX01PVU5UX05BTUUiCg==
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-root-dir-permissions.sh
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaApzZXQgLXgKZWNobyAiYW5ub3RhdGluZyBub2RlIHdpdGggYm9vdGlkIHRvIHNob3cgc3lzdGVtIGhhcyByZWdpc3RlcmVkIHRoZSBib290IgpLVUJFQ09ORklHX0ZJTEVfUEFUSD0iL3Zhci9saWIva3ViZWxldC9rdWJlY29uZmlnIgpCT09UX0lEX1ZBTFVFPSQoY2F0IC9wcm9jL3N5cy9rZXJuZWwvcmFuZG9tL2Jvb3RfaWQpCk5PREVfTkFNRT0kKGhvc3RuYW1lKQp3aGlsZSB0cnVlOyBkbwoJaWYga3ViZWN0bCAtLWt1YmVjb25maWcgIiRLVUJFQ09ORklHX0ZJTEVfUEFUSCIgYW5ub3RhdGUgbm9kZSAiJE5PREVfTkFNRSIgb3BlbnNoaWZ0LmlvL3JlcG9ydGVkLWJvb3QtaWQ9IiRCT09UX0lEX1ZBTFVFIiAtLW92ZXJ3cml0ZTsgdGhlbgoJICBicmVhawoJZmkKCXNsZWVwIDYwCmRvbmUK
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-report-bootid
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaApzZXQgLXgKbWtkaXIgLXAgL3Zhci9sb2cvYXQKY2htb2QgMTc3NyAvdmFyL2xvZy9hdApta2RpciAtcCAvdmFyL2xvZy9hdC1uby1yb3RhdGUKY2htb2QgMTc3NyAvdmFyL2xvZy9hdC1uby1yb3RhdGUKc2VtYW5hZ2UgZmNvbnRleHQgLWEgLXQgY29udGFpbmVyX2ZpbGVfdCAiL3Zhci9sb2cvYXQoLy4qKSIKc2VtYW5hZ2UgZmNvbnRleHQgLWEgLXQgY29udGFpbmVyX2ZpbGVfdCAiL3Zhci9sb2cvYXQiCnNlbWFuYWdlIGZjb250ZXh0IC1hIC10IGNvbnRhaW5lcl9maWxlX3QgIi92YXIvbG9nL2F0LW5vLXJvdGF0ZSIKc2VtYW5hZ2UgZmNvbnRleHQgLWEgLXQgY29udGFpbmVyX2ZpbGVfdCAiL3Zhci9sb2cvYXQtbm8tcm90YXRlKC8uKikiCnRvdWNoIC9ldGMvc3lzY29uZmlnL2F0ZGlyaW5pdGlhbGl6ZWQ=
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-at-directory-init.sh
+        - contents:
+            source: data:text/plain;base64,IyEvdXNyL2Jpbi9lbnYgYmFzaApzZXQgLXgKcmVzdG9yZWNvbiAtdnIgL3Zhci9sb2cvYXQKcmVzdG9yZWNvbiAtdnIgL3Zhci9sb2cvYXQtbm8tcm90YXRlCg==
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-at-directory-selinux-reconcile.sh
+        - contents:
+            source: data:text/plain;base64,U0VDT05EQVJZX1NUT1JBR0VfRk9STUFUVElOR19TVFJBVEVHWT0ibHVrcyI=
+          filesystem: root
+          mode: 420
+          path: /etc/sysconfig/ibmsecondarystorageinputparameters
+        - contents:
+            source: data:text/plain;base64,dW5xdWFsaWZpZWQtc2VhcmNoLXJlZ2lzdHJpZXMgPSBbInJlZ2lzdHJ5LmFjY2Vzcy5yZWRoYXQuY29tIiwgImRvY2tlci5pbyJdCgpbW3JlZ2lzdHJ5XV0KICBsb2NhdGlvbiA9ICJyZWdpc3RyeS5zdmMuY2kub3BlbnNoaWZ0Lm9yZy9vY3AvcmVsZWFzZSIKICBpbnNlY3VyZSA9IGZhbHNlCiAgYmxvY2tlZCA9IGZhbHNlCiAgbWlycm9yLWJ5LWRpZ2VzdC1vbmx5ID0gdHJ1ZQogIHByZWZpeCA9ICIiCgogIFtbcmVnaXN0cnkubWlycm9yXV0KICAgIGxvY2F0aW9uID0gInJlZ2lzdHJ5Lm5nLmJsdWVtaXgubmV0L2FybWFkYS1tYXN0ZXIvb2NwLXJlbGVhc2UiCiAgICBpbnNlY3VyZSA9IGZhbHNlCgpbW3JlZ2lzdHJ5XV0KICBsb2NhdGlvbiA9ICJxdWF5LmlvL29wZW5zaGlmdC1yZWxlYXNlLWRldi9vY3AtcmVsZWFzZSIKICBpbnNlY3VyZSA9IGZhbHNlCiAgYmxvY2tlZCA9IGZhbHNlCiAgbWlycm9yLWJ5LWRpZ2VzdC1vbmx5ID0gdHJ1ZQogIHByZWZpeCA9ICIiCgogIFtbcmVnaXN0cnkubWlycm9yXV0KICAgIGxvY2F0aW9uID0gInJlZ2lzdHJ5Lm5nLmJsdWVtaXgubmV0L2FybWFkYS1tYXN0ZXIvb2NwLXJlbGVhc2UiCiAgICBpbnNlY3VyZSA9IGZhbHNlCgpbW3JlZ2lzdHJ5XV0KICBsb2NhdGlvbiA9ICJxdWF5LmlvL29wZW5zaGlmdC1yZWxlYXNlLWRldi9vY3AtdjQuMC1hcnQtZGV2IgogIGluc2VjdXJlID0gZmFsc2UKICBibG9ja2VkID0gZmFsc2UKICBtaXJyb3ItYnktZGlnZXN0LW9ubHkgPSB0cnVlCiAgcHJlZml4ID0gIiIKCiAgW1tyZWdpc3RyeS5taXJyb3JdXQogICAgbG9jYXRpb24gPSAicmVnaXN0cnkubmcuYmx1ZW1peC5uZXQvYXJtYWRhLW1hc3Rlci9vY3AtcmVsZWFzZSIKICAgIGluc2VjdXJlID0gZmFsc2UKCltbcmVnaXN0cnldXQogIGxvY2F0aW9uID0gImRvY2tlci5pby9jYWxpY28vbm9kZSIKICBpbnNlY3VyZSA9IGZhbHNlCiAgYmxvY2tlZCA9IGZhbHNlCiAgbWlycm9yLWJ5LWRpZ2VzdC1vbmx5ID0gZmFsc2UKICBwcmVmaXggPSAiIgoKICBbW3JlZ2lzdHJ5Lm1pcnJvcl1dCiAgbG9jYXRpb24gPSAicmVnaXN0cnkubmcuYmx1ZW1peC5uZXQvYXJtYWRhLW1hc3Rlci9ub2RlIgogIGluc2VjdXJlID0gZmFsc2UKCltbcmVnaXN0cnldXQogIGxvY2F0aW9uID0gImRvY2tlci5pby9jYWxpY28vY25pIgogIGluc2VjdXJlID0gZmFsc2UKICBibG9ja2VkID0gZmFsc2UKICBtaXJyb3ItYnktZGlnZXN0LW9ubHkgPSBmYWxzZQogIHByZWZpeCA9ICIiCgogIFtbcmVnaXN0cnkubWlycm9yXV0KICBsb2NhdGlvbiA9ICJyZWdpc3RyeS5uZy5ibHVlbWl4Lm5ldC9hcm1hZGEtbWFzdGVyL2NuaSIKICBpbnNlY3VyZSA9IGZhbHNlCgpbW3JlZ2lzdHJ5XV0KICBsb2NhdGlvbiA9ICJkb2NrZXIuaW8vY2FsaWNvL3BvZDJkYWVtb24tZmxleHZvbCIKICBpbnNlY3VyZSA9IGZhbHNlCiAgYmxvY2tlZCA9IGZhbHNlCiAgbWlycm9yLWJ5LWRpZ2VzdC1vbmx5ID0gZmFsc2UKICBwcmVmaXggPSAiIgoKICBbW3JlZ2lzdHJ5Lm1pcnJvcl1dCiAgbG9jYXRpb24gPSAicmVnaXN0cnkubmcuYmx1ZW1peC5uZXQvYXJtYWRhLW1hc3Rlci9wb2QyZGFlbW9uLWZsZXh2b2wiCiAgaW5zZWN1cmUgPSBmYWxzZQo=
+          filesystem: root
+          mode: 420
+          path: /etc/containers/registries.conf
+        - contents:
+            source: data:text/plain;base64,L3Zhci9sb2cvYXQvKi5sb2cgL3Zhci9sb2cvYXQvKi8qLmxvZyAvdmFyL2xvZy9hdC8qLyovKi5sb2cgL3Zhci9sb2cvYXQvKi8qLyovKi5sb2cgL3Zhci9sb2cvYXQvKi8qLyovKi8qLmxvZyAvdmFyL2xvZy9hdC8qLyovKi8qLyovKi5sb2cgL3Zhci9sb2cvYXQvKi8qLyovKi8qLyovKi5sb2cgL3Zhci9sb2cvYXQvKi8qLyovKi8qLyovKi8qLmxvZyAvdmFyL2xvZy9hdC8qLyovKi8qLyovKi8qLyovKi5sb2cgL3Zhci9sb2cvYXQvKi8qLyovKi8qLyovKi8qLyovKi5sb2cKewogICAgZGF0ZWV4dAogICAgZGF0ZWZvcm1hdCAtJVklbSVkLSVzCiAgICByb3RhdGUgNAogICAgZGFpbHkKICAgIG1pc3Npbmdvawp9
+          filesystem: root
+          mode: 420
+          path: /etc/logrotate.d/activitytracker
+    systemd:
+      units:
+        - contents: |
+            [Unit]
+            Description=Format ext4 filesystem on secondary disk
+            After=network-online.target local-fs.target
+            Before=kubelet.service podman.service crio-wipe.service crio.service
+            ConditionPathExists=/etc/sysconfig/ibmsecondarystorage/ext4
+            ConditionPathExists=!/etc/sysconfig/ibmsecondarystorage/setupexecuted
+
+
+            [Service]
+            Type=oneshot
+            Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            EnvironmentFile=-/etc/sysconfig/ibmsecondarystorage/ibmsecondarystorageenvfile
+
+            ExecStart=/usr/local/bin/ibm-ext4-format.sh
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: ibm-ext4-format.service
+        - contents: |
+            [Unit]
+            Description=Locate secondary storage device
+            After=network-online.target local-fs.target
+            Before=ibm-ext4-format.service ibm-luks-encryption.service
+            ConditionPathExists=!/etc/sysconfig/ibmsecondarystorage/ibmsecondarystorageenvfile
+
+
+            [Service]
+            Type=oneshot
+            Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            EnvironmentFile=-/etc/sysconfig/ibmsecondarystorageinputparameters
+
+            ExecStart=/usr/local/bin/ibm-locate-secondary-storage.sh
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: ibm-locate-secondary-storage.service
+        - contents: |
+            [Unit]
+            Description=Perform luks encryption on secondary disk
+            After=network-online.target local-fs.target
+            Before=kubelet.service podman.service crio-wipe.service crio.service
+            ConditionPathExists=/etc/sysconfig/ibmsecondarystorage/luks
+            ConditionPathExists=!/etc/sysconfig/ibmsecondarystorage/setupexecuted
+
+
+            [Service]
+            Type=oneshot
+            Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            EnvironmentFile=-/etc/sysconfig/ibmsecondarystorage/ibmsecondarystorageenvfile
+            EnvironmentFile=-/etc/sysconfig/ibmmachinemetadataenvfile
+
+            ExecStart=/usr/local/bin/ibm-luks-encryption.sh
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: ibm-luks-encryption.service
+        - contents: |
+            [Unit]
+            Description=gather metadata for worker
+            Before=ibm-locate-secondary-storage.service
+            After=network-online.target
+            ConditionPathExists=!/etc/sysconfig/ibmmachinemetadataenvfile
+
+
+            [Service]
+            Type=oneshot
+            Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ExecStart=/usr/local/bin/ibm-metadata-gatherer
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: ibm-metadata-gatherer.service
+        - contents: |
+            [Unit]
+            Description=report boot id
+            After=kubelet.service
+            Requires=kubelet.service
+
+            [Service]
+            Type=oneshot
+            Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ExecStart=/usr/local/bin/ibm-report-bootid
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: ibm-report-bootid.service
+        - dropins:
+          - contents: |
+              [Service]
+              EnvironmentFile=/etc/sysconfig/ibmmachinemetadataenvfile
+            name: 01-ibm-kubelet-addition.conf
+          - contents: |
+              [Service]
+              ExecStart=
+              ExecStart=/usr/bin/hyperkube \
+                        kubelet \
+                        --config=/etc/kubernetes/kubelet.conf \
+                        --bootstrap-kubeconfig=/etc/kubernetes/haproxy-kubeconfig \
+                        --kubeconfig=/var/lib/kubelet/kubeconfig \
+                        --root-dir=/var/data/kubelet \
+                        --container-runtime=remote \
+                        --container-runtime-endpoint=/var/run/crio/crio.sock \
+                        --runtime-cgroups=/system.slice/crio.service \
+                        --node-labels=node-role.kubernetes.io/master,node.openshift.io/os_id=${ID} \
+                        --node-ip=${KUBELET_NODE_IP} \
+                        --minimum-container-ttl-duration=6m0s \
+                        --cloud-provider= \
+                        --volume-plugin-dir=/etc/kubernetes/kubelet-plugins/volume/exec \
+                        \
+                        --register-with-taints=node-role.kubernetes.io/master=:NoSchedule \
+                        --pod-infra-container-image=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:20f024abc7249c5bdb2e5a6ff0aa8c92a952ef08d55919e2d089292171623010 \
+                        --system-reserved=cpu=${SYSTEM_RESERVED_CPU},memory=${SYSTEM_RESERVED_MEMORY} \
+                        --v=${KUBELET_LOG_LEVEL}
+            name: 02-ibm-kubelet-rootdiroverride.conf
+          enabled: true
+          name: kubelet.service
+        - dropins:
+            - contents: |
+                [Service]
+                Environment="TMPDIR=/var/data/tmp"
+              name: 01-ibm-tmpdir.conf
+          enabled: true
+          name: crio.service
+        - contents: |
+            [Unit]
+            Description=Initialize at directory
+            After=local-fs.target
+            ConditionPathExists=!/etc/sysconfig/atdirinitialized
+
+
+            [Service]
+            Type=oneshot
+            Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ExecStart=/usr/local/bin/ibm-at-directory-init.sh
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: ibm-at-init.service
+        - contents: |
+            [Unit]
+            Description=Initialize at directory
+            After=local-fs.target ibm-at-init.service
+
+            [Service]
+            Type=oneshot
+            Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ExecStart=/usr/local/bin/ibm-at-directory-selinux-reconcile.sh
+            RemainAfterExit=yes
+
+            [Install]
+            WantedBy=multi-user.target
+          enabled: true
+          name: ibm-at-selinux-reconcile.service
+        - contents: |
+            [Unit]
+            Description=Run logrotate.service every 5 minutes
+
+            [Timer]
+            OnCalendar=*:0/5
+
+            [Install]
+            WantedBy=timers.target
+          enabled: true
+          name: logrotate.timer
+
+
+

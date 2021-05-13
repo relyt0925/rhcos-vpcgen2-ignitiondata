@@ -1,0 +1,12 @@
+[Unit]
+Description=Initialize at directory
+After=local-fs.target ibm-at-init.service
+
+[Service]
+Type=oneshot
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/usr/local/bin/ibm-at-directory-selinux-reconcile.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
