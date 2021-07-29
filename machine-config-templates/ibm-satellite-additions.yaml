@@ -1,0 +1,31 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 99-ibm-machineconfig-satellite
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  fips: true
+  config:
+    ignition:
+      version: 2.2.0
+    storage:
+      files:
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-satellite-mtu-gather.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-satellite-mtu-gather.sh
+    systemd:
+      units:
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-satellite-mtu-gather.service" ))
+          enabled: true
+          name: ibm-satellite-mtu-gather.service
+        - dropins:
+            - contents:
+                (( file "tmp/ignitionformmatedfiles/etc/systemd/system/kubelet.service.d/02-ibm-kubelet-rootdiroverride-satellite.conf" ))
+              name: 02-ibm-kubelet-rootdiroverride.conf
+          enabled: true
+          name: kubelet.service
+

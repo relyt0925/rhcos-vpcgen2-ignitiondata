@@ -41,3 +41,4 @@ WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
 systemctl start "$POD_LOGS_MOUNT_NAME"
+touch /etc/sysconfig/rootdirpermissionlogicexecuted

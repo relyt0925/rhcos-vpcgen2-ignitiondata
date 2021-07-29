@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ibm-registry-proxy
+  namespace: kube-system
+  labels:
+    k8s-app: ibm-registry-proxy
+spec:
+  hostNetwork: true
+  containers:
+    - name: haproxy
+      image: (( grab $HAPROXY_IMAGE || "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d478cd82cb6a604e3a27383daf93637326d402570b2f3bec835d1f84c9ed0acc"))
+      priorityClassName: system-node-critical
+      securityContext:
+        runAsUser: 1001
+        capabilities:
+          add: [ "NET_BIND_SERVICE" ]
+      resources:
+        limits:
+          cpu: 300m
+          memory: 512M
+        requests:
+          cpu: 13m
+          memory: 16M
+      livenessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 120
+        periodSeconds: 120
+        successThreshold: 1
+        httpGet:
+          path: /status
+          scheme: HTTPS
+          host: REGIONAL_REGISTRY_HOSTNAME_VALUE
+          port: 443
+        timeoutSeconds: 60
+      command:
+        - haproxy
+        - -f
+        - /usr/local/etc/haproxy
+      volumeMounts:
+        - name: config
+          mountPath: /usr/local/etc/haproxy
+  volumes:
+    - name: config
+      hostPath:
+        path: /etc/kubernetes/ibm-registry-proxy

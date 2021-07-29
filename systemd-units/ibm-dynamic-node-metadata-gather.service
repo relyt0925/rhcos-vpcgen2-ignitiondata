@@ -1,0 +1,13 @@
+[Unit]
+Description=Gather dynamic node metadata
+Before=kubelet.service crio-wipe.service crio.service
+After=ibm-ext4-format.service ibm-luks-encryption.service
+
+[Service]
+Type=oneshot
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/usr/local/bin/ibm-reservation-calculations.sh true
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

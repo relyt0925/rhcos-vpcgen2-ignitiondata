@@ -1,0 +1,15 @@
+[Unit]
+Description=Gather Satellite MTU Data
+Wants=network-online.target
+After=network-online.target
+Before=kubelet.service crio-wipe.service crio.service
+
+[Service]
+Type=oneshot
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+EnvironmentFile=/etc/sysconfig/ibmmasterendpointsmetadata
+ExecStart=/usr/local/bin/ibm-satellite-mtu-gather.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

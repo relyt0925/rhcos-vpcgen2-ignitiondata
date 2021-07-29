@@ -1,0 +1,44 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 98-ibm-machineconfig-private
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  fips: true
+  config:
+    ignition:
+      version: 2.2.0
+    storage:
+      files:
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-add-registry-routes.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-add-registry-routes.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-remove-registry-routes.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-remove-registry-routes.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-dynamic-registry-haproxy-config.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-dynamic-registry-haproxy-config.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/haproxytemplates/haproxy-ibm-private-registries.cfg.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/haproxytemplates/haproxy-ibm-private-registries.cfg
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/haproxytemplates/ibm-registry-haproxy.yaml.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/haproxytemplates/ibm-registry-haproxy.yaml
+    systemd:
+      units:
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-registries-ip.service" ))
+          enabled: true
+          name: ibm-registries-ip.service

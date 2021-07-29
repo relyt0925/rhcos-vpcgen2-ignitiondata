@@ -1,0 +1,13 @@
+[Unit]
+Description=Generate haproxy config for master endpoints
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/sysconfig/ibmmasterendpointsmetadata
+ExecStart=/usr/local/bin/ibm-dynamic-master-haproxy-config.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

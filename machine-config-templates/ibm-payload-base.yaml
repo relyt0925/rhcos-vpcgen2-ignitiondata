@@ -1,0 +1,197 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 97-ibm-machineconfig-base
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  fips: true
+  config:
+    ignition:
+      version: 2.2.0
+    storage:
+      files:
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-ext4-format.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-ext4-format.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-find-secondary-storage.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-find-secondary-storage.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-locate-secondary-storage.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-locate-secondary-storage.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-luks-encryption.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-luks-encryption.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-metadata-gatherer.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-metadata-gatherer.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-root-dir-permissions.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-root-dir-permissions.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-report-bootid.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-report-bootid.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-at-directory-init.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-at-directory-init.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-at-directory-selinux-reconcile.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-at-directory-selinux-reconcile.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/irq-rebalance.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/irq-rebalance.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-dynamic-master-haproxy-config.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-dynamic-master-haproxy-config.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-reservation-calculations.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-reservation-calculations.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/usr/local/bin/ibm-kubelet-conf-additons.sh.base64" ))
+          filesystem: root
+          mode: 493
+          path: /usr/local/bin/ibm-kubelet-conf-additons.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/sysconfig/ibmsecondarystorageinputparameters.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/sysconfig/ibmsecondarystorageinputparameters
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/logrotate.d/activitytracker.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/logrotate.d/activitytracker
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/sysctl.d/98-ibm-sysctl-file.conf.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/sysctl.d/98-ibm-sysctl-file.conf
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/sysctl.d/98-ibm-sysctl-network.conf.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/sysctl.d/98-ibm-sysctl-network.conf
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/sysconfig/ibmbomversion.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/sysconfig/ibmbomversion
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/haproxytemplates/haproxy-ibm-master-endpoints.cfg.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/haproxytemplates/haproxy-ibm-master-endpoints.cfg
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/security/limits.conf.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/security/limits.conf
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/crio/crio.conf.d/01-storagedir.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/crio/crio.conf.d/01-storagedir
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/crio/crio.conf.d/02-fscloud-timeout.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/crio/crio.conf.d/02-fscloud-timeout
+    systemd:
+      units:
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-ext4-format.service" ))
+          enabled: true
+          name: ibm-ext4-format.service
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-locate-secondary-storage.service" ))
+          enabled: true
+          name: ibm-locate-secondary-storage.service
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-luks-encryption.service" ))
+          enabled: true
+          name: ibm-luks-encryption.service
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-metadata-gatherer.service" ))
+          enabled: true
+          name: ibm-metadata-gatherer.service
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-report-bootid.service" ))
+          enabled: true
+          name: ibm-report-bootid.service
+        - contents:
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-dynamic-master-haproxy-config.service" ))
+          enabled: true
+          name: ibm-dynamic-master-haproxy-config.service
+        - dropins:
+            - contents: 
+                (( file "tmp/ignitionformmatedfiles/etc/systemd/system/kubelet.service.d/01-ibm-kubelet-addition.conf" ))
+              name: 01-ibm-kubelet-addition.conf
+            - contents:
+                (( file "tmp/ignitionformmatedfiles/etc/systemd/system/kubelet.service.d/02-ibm-kubelet-rootdiroverride.conf" ))
+              name: 02-ibm-kubelet-rootdiroverride.conf
+          enabled: true
+          name: kubelet.service
+        - dropins:
+            - contents: 
+                (( file "tmp/ignitionformmatedfiles/etc/systemd/system/crio.service.d/01-ibm-tmpdir.conf" ))
+              name: 01-ibm-tmpdir.conf
+          enabled: true
+          name: crio.service
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-at-init.service" ))
+          enabled: true
+          name: ibm-at-init.service
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-at-selinux-reconcile.service" ))
+          enabled: true
+          name: ibm-at-selinux-reconcile.service
+        - contents: 
+            (( file "tmp/ignitionformmatedfiles/systemd-units/logrotate.timer" ))
+          enabled: true
+          name: logrotate.timer
+        - contents:
+            (( file "tmp/ignitionformmatedfiles/systemd-units/irqbalance.service" ))
+          enabled: true
+          name: irqbalance.service
+        - contents:
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-dynamic-node-metadata-gather.service" ))
+          enabled: true
+          name: ibm-dynamic-node-metadata-gather.service
+        - contents:
+            (( file "tmp/ignitionformmatedfiles/systemd-units/kubelet-auto-node-size.service" ))
+          enabled: true
+          name: kubelet-auto-node-size.service
+        - contents:
+            (( file "tmp/ignitionformmatedfiles/systemd-units/ibm-root-dir-permissions.service" ))
+          enabled: true
+          name: ibm-root-dir-permissions.service
+
+
+
+
+

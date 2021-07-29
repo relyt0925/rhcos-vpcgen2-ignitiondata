@@ -1,0 +1,16 @@
+[Unit]
+Description=IBM High Performance IRQ Balance
+ConditionVirtualization=!container
+
+[Service]
+Type=oneshot
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/usr/local/bin/irq-rebalance.sh
+RemainAfterExit=yes
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=irqnew
+
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,5 @@
+[crio]
+
+[crio.api]
+
+stream_idle_timeout = "15m"

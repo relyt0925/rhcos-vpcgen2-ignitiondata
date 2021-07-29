@@ -6,7 +6,8 @@ Requires=kubelet.service
 [Service]
 Type=oneshot
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-ExecStart=/usr/local/bin/ibm-report-bootid
+EnvironmentFile=/etc/sysconfig/ibmbomversion
+ExecStart=/usr/local/bin/ibm-report-bootid.sh
 RemainAfterExit=yes
 
 [Install]

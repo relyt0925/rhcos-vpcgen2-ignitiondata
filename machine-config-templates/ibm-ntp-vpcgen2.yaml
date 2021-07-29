@@ -1,0 +1,19 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 98-ibm-machineconfig-chrony
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  fips: true
+  config:
+    ignition:
+      version: 2.2.0
+    storage:
+      files:
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/chrony/chrony.conf.base64" ))
+          filesystem: root
+          overwrite: true
+          mode: 644
+          path: /etc/chrony.conf

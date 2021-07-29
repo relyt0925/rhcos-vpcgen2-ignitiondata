@@ -1,5 +1,5 @@
 [Unit]
-Description=Initialize at directory
+Description=Ensure at directory has proper selinux context
 After=local-fs.target ibm-at-init.service
 
 [Service]

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-WORKERIP=10.240.64.12
+WORKERID=tyler-30
 cat >/tmp/ibm-bootstrap-worker-metdata-cm <<EOF
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: ibm-machinemetadata-$WORKERIP
+  name: ibm-machinemetadata-$WORKERID
   namespace: openshift-infra
 data:
-  providerid: "ibm://accountid1///clusterid1/workeridar"
+  providerid: "ibm://accountid1///clusterid1/$WORKERID"
 EOF
 sleep 1
 kubectl --kubeconfig /tmp/tyler13-admin-kubeconfig apply -f /tmp/ibm-bootstrap-worker-metdata-cm

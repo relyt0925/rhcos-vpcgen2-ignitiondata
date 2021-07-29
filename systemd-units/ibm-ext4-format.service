@@ -1,7 +1,7 @@
 [Unit]
 Description=Format ext4 filesystem on secondary disk
 After=network-online.target local-fs.target
-Before=kubelet.service
+Before=kubelet.service crio-wipe.service crio.service
 ConditionPathExists=/etc/sysconfig/ibmsecondarystorage/ext4
 ConditionPathExists=!/etc/sysconfig/ibmsecondarystorage/setupexecuted
 

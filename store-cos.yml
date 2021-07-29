@@ -1,0 +1,65 @@
+---
+# ******************************************************************************
+# * Licensed Materials - Property of IBM
+# * IBM Cloud Kubernetes Service, 5737-D43
+# * (C) Copyright IBM Corp. 2020 All Rights Reserved.
+# * US Government Users Restricted Rights - Use, duplication or
+# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+# ******************************************************************************
+# This playbook's purpose is to expand the ocp release image and produce a text
+# file of the images.  That file can be consumed by other tooling
+- hosts: localhost
+  connection: local
+  pre_tasks:
+  - name: stat the specified file
+    stat:
+      path: '{{ s3_log_file }}'
+    register: _log_file
+  tasks:
+  - name: Remove color codes from file
+    replace:
+      path: '{{ s3_log_file }}'
+      regexp: '\x1b\[[0-9;]*m'
+      replace: ''
+    when:
+    - _log_file.stat.exists
+
+  - name: Remove color codes from file
+    lineinfile:
+      path: '{{ s3_log_file }}'
+      regexp: '<127.0.0.1> '
+      state: absent
+    when:
+    - _log_file.stat.exists
+
+  - name: Simple PUT operation
+    aws_s3:
+      bucket: rhcos-vpcgen2-ignitiondata-pr-job-logs
+      object: '{{ s3_log_file|basename }}'
+      src: '{{ s3_log_file }}'
+      mode: put
+      encrypt: no
+      expiration: "259200"
+      s3_url: https://s3.us.cloud-object-storage.appdomain.cloud
+    when:
+    - _log_file.stat.exists
+    - not skip_store|default(false)
+
+  - name: Simple get url operation
+    aws_s3:
+      bucket: rhcos-vpcgen2-ignitiondata-pr-job-logs
+      object: '{{ s3_log_file|basename }}'
+      mode: geturl
+      expiration: "259200"
+      s3_url: https://s3.us.cloud-object-storage.appdomain.cloud
+    register: _cos_url
+    when:
+    - _log_file.stat.exists
+    - not skip_store|default(false)
+
+  - name: Display url
+    debug:
+      msg: 'LOG URL: {{ _cos_url.url }}'
+    when:
+    - _log_file.stat.exists
+    - not skip_store|default(false)

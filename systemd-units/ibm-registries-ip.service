@@ -5,7 +5,10 @@ After=network-online.target
 
 [Service]
 Type=oneshot
+EnvironmentFile=/etc/sysconfig/ibmmasterendpointsmetadata
+Environment=REGIONAL_REGISTRY_ENDPOINT="{{ DOCKER_REGISTRY }}"
 ExecStart=/usr/local/bin/ibm-add-registry-routes.sh
+ExecStart=/usr/local/bin/ibm-dynamic-registry-haproxy-config.sh
 ExecStop=/usr/local/bin/ibm-remove-registry-routes.sh
 RemainAfterExit=yes
 

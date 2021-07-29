@@ -1,0 +1,16 @@
+[Unit]
+Description=Generate dynamic kube component data
+Before=kubelet.service crio-wipe.service crio.service
+After=ibm-dynamic-node-metadata-gather.service
+
+[Service]
+Type=oneshot
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+EnvironmentFile=/etc/node-sizing.env
+ExecStart=/usr/local/bin/ibm-kubelet-conf-additons.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
+

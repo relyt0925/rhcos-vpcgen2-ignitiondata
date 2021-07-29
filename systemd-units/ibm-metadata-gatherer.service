@@ -1,6 +1,6 @@
 [Unit]
 Description=gather metadata for worker
-Before=ibm-locate-secondary-storage.service kubelet.service
+Before=ibm-locate-secondary-storage.service kubelet.service crio-wipe.service crio.service
 After=network-online.target
 ConditionPathExists=!/etc/sysconfig/ibmmachinemetadataenvfile
 
@@ -8,7 +8,7 @@ ConditionPathExists=!/etc/sysconfig/ibmmachinemetadataenvfile
 [Service]
 Type=oneshot
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-ExecStart=/usr/local/bin/ibm-metadata-gatherer
+ExecStart=/usr/local/bin/ibm-metadata-gatherer.sh
 RemainAfterExit=yes
 
 [Install]

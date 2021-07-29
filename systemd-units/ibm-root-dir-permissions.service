@@ -1,0 +1,14 @@
+[Unit]
+Description=Setup root data directories
+Before=kubelet.service crio-wipe.service crio.service
+After=ibm-ext4-format.service ibm-luks-encryption.service
+ConditionPathExists=!/etc/sysconfig/rootdirpermissionlogicexecuted
+
+[Service]
+Type=oneshot
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/usr/local/bin/ibm-root-dir-permissions.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
