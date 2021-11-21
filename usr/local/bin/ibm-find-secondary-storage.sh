@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+# ******************************************************************************
+# * Licensed Materials - Property of IBM
+# * IBM Cloud Kubernetes Service, 5737-D43
+# * (C) Copyright IBM Corp. 2019, 2021 All Rights Reserved.
+# * US Government Users Restricted Rights - Use, duplication or
+# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+# ******************************************************************************
+
 set -e
 DEVICES=$(lsblk -J --bytes)
 
@@ -15,6 +23,9 @@ for c in $(seq 0 "${BLOCK_DEVICE_LENGTH}"); do
 			if [[ "${RESERVED_DEVICE}" == "null" ]]; then
 				continue
 			fi
+			if ! lsblk -s | grep "^${RESERVED_DEVICE} " >/dev/null; then
+				continue
+			fi
 			echo -n "/dev/${RESERVED_DEVICE}"
 			exit 0
 		fi
@@ -24,8 +35,29 @@ for c in $(seq 0 "${BLOCK_DEVICE_LENGTH}"); do
 			if [[ "${RESERVED_DEVICE}" == "null" ]]; then
 				continue
 			fi
+			if ! lsblk -s | grep "^${RESERVED_DEVICE} " >/dev/null; then
+				continue
+			fi
 			echo -n "/dev/${RESERVED_DEVICE}"
 			exit 0
 		fi
+	fi
+done
+for c in $(seq 0 "${BLOCK_DEVICE_LENGTH}"); do
+	if [[ ${c} != 0 && "$(echo "${DEVICES}" | jq ".blockdevices[${c}].children | length")" -gt 1 ]]; then
+		total_children=$(echo "${DEVICES}" | jq ".blockdevices[${c}].children | length")
+		for ((itr = 0; itr < total_children; itr++)); do
+			if [[ "$(echo "${DEVICES}" | jq ".blockdevices[${c}].mountpoint")" == "null" && "$(echo "${DEVICES}" | jq ".blockdevices[${c}].children[${itr}].mountpoint")" == "null" ]] && [[ "$(echo "${DEVICES}" | jq ".blockdevices[${c}].size" | tr -d "\"")" -ge 75000000000 ]] && [[ "$(echo "${DEVICES}" | jq ".blockdevices[${c}].children[${itr}].size" | tr -d "\"")" -ge 75000000000 ]]; then
+				RESERVED_DEVICE=$(echo "${DEVICES}" | jq ".blockdevices[${c}].children[${itr}].name" | tr -d "\"")
+				if [[ "${RESERVED_DEVICE}" == "null" ]]; then
+					continue
+				fi
+				if ! lsblk -s | grep "^${RESERVED_DEVICE} " >/dev/null; then
+					continue
+				fi
+				echo -n "/dev/${RESERVED_DEVICE}"
+				exit 0
+			fi
+		done
 	fi
 done

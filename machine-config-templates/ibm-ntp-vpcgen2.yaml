@@ -3,7 +3,7 @@ kind: MachineConfig
 metadata:
   name: 98-ibm-machineconfig-chrony
   labels:
-    machineconfiguration.openshift.io/role: master
+    machineconfiguration.openshift.io/role: worker
 spec:
   fips: true
   config:

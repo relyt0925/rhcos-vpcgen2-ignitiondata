@@ -3,7 +3,7 @@ kind: MachineConfig
 metadata:
   name: 99-ibm-machineconfig-satellite
   labels:
-    machineconfiguration.openshift.io/role: master
+    machineconfiguration.openshift.io/role: worker
 spec:
   fips: true
   config:
@@ -16,6 +16,11 @@ spec:
           filesystem: root
           mode: 493
           path: /usr/local/bin/ibm-satellite-mtu-gather.sh
+        - contents:
+            source: (( file "tmp/ignitionformmatedfiles/etc/sysconfig/machineconfigdaemonsha.base64" ))
+          filesystem: root
+          mode: 420
+          path: /etc/sysconfig/machineconfigdaemonsha
     systemd:
       units:
         - contents: 

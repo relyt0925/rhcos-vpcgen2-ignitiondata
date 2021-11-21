@@ -1,6 +1,10 @@
 apiVersion: v1
 kind: List
 metadata:
+  #NOTE: it is very important to not adjust spacing for variables like {{managed_cluster_tail}}
+  # or {{ kubx-masters.armada-info-configmap.ICR_REGISTRY_URL }} and use them consistently in templating or
+  # else pr testing will fail (sed replaces look for exact match) this goes for the downstream repos the
+  # pr tester interacts with as well
   name: rhcos-vpcgen2-ignitiondata-list
   annotations:
     version: (( grab $TRAVIS_COMMIT || "dev" ))
@@ -10,86 +14,86 @@ items:
   - apiVersion: v1
     kind: ConfigMap
     data:
-      releaseimage: "{{ DOCKER_REGISTRY }}/armada-master/ocp-release:4.8.0-fc.1-x86_64"
+      releaseimage: "{{ DOCKER_REGISTRY }}/armada-master/ocp-release:4.8.17-x86_64"
+      configpatch: |
+        spec:
+          config:
+          - name: "ignition-config-97-ibm-master-endpoints-{{managed_cluster_tail}}"
+          - name: "ignition-config-97-ibm-machineconfig-base-{{managed_cluster_tail}}"
+          - name: "ignition-config-98-ibm-machineconfig-private-{{managed_cluster_tail}}"
+          - name: "ignition-config-98-ibm-machineconfig-chrony-{{managed_cluster_tail}}"
+          {{#is_rhcos_on_satellite}}- name: "ignition-config-99-ibm-machineconfig-satellite-{{managed_cluster_tail}}"{{/is_rhcos_on_satellite}}
     metadata:
-      name: "{{managed_cluster_tail}}-nodepool-metadata-info"
+      name: "nodepool-metadata-info-{{managed_cluster_tail}}"
       namespace: master
+      labels:
+        rhcos-config-clusterid: "{{managed_cluster_tail}}"
+        clusterID: "{{managed_cluster_tail}}"
   - apiVersion: v1
     kind: ConfigMap
     data:
-      data:
+      config:
         (( file "tmp/machine-configs/ibm-payload-base.yaml.based" ))
     metadata:
-      name: ignition-config-97-ibm-machineconfig-base
-      namespace: master-{{managed_cluster_tail}}
+      name: "ignition-config-97-ibm-machineconfig-base-{{managed_cluster_tail}}"
+      namespace: master
       labels:
         ignition-config: "true"
+        rhcos-config-clusterid: "{{managed_cluster_tail}}"
+        clusterID: "{{managed_cluster_tail}}"
   - apiVersion: v1
     kind: ConfigMap
     data:
-      data:
+      config:
         (( file "tmp/machine-configs/ibm-private-additions.yaml.based" ))
     metadata:
-      name: ignition-config-98-ibm-machineconfig-private
-      namespace: master-{{managed_cluster_tail}}
+      name: "ignition-config-98-ibm-machineconfig-private-{{managed_cluster_tail}}"
+      namespace: master
       labels:
         ignition-config: "true"
+        rhcos-config-clusterid: "{{managed_cluster_tail}}"
+        clusterID: "{{managed_cluster_tail}}"
   - apiVersion: v1
     kind: ConfigMap
     data:
-      data:
+      config:
         (( file "tmp/machine-configs/ibm-ntp-vpcgen2.yaml.based" ))
     metadata:
-      name: ignition-config-98-ibm-machineconfig-chrony
-      namespace: master-{{managed_cluster_tail}}
+      name: "ignition-config-98-ibm-machineconfig-chrony-{{managed_cluster_tail}}"
+      namespace: master
       labels:
         ignition-config: "true"
+        rhcos-config-clusterid: "{{managed_cluster_tail}}"
+        clusterID: "{{managed_cluster_tail}}"
   - apiVersion: v1
     kind: ConfigMap
     data:
-      data:
+      config:
         (( file "tmp/machine-configs/ibm-satellite-additions.yaml.based" ))
     metadata:
-      name: ignition-config-99-ibm-machineconfig-satellite
-      namespace: master-{{managed_cluster_tail}}
+      name: "ignition-config-99-ibm-machineconfig-satellite-{{managed_cluster_tail}}"
+      namespace: master
       labels:
         ignition-config: "true"
-  - apiVersion: v1
-    kind: ConfigMap
-    data:
-      data: |
-        apiVersion: operator.openshift.io/v1alpha1
-        kind: ImageContentSourcePolicy
-        metadata:
-          name: ibm-registry
-        spec:
-          repositoryDigestMirrors:
-          - mirrors:
-            - private.{{ kubx-masters.armada-info-configmap.ICR_REGISTRY_URL }}/armada-master/ocp-release
-            source: quay.io/openshift-release-dev/ocp-release
-          - mirrors:
-            - private.{{ kubx-masters.armada-info-configmap.ICR_REGISTRY_URL }}/armada-master/ocp-release
-            source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
-    metadata:
-      name: ignition-config-98-ibm-registry-mirror
-      namespace: master-{{managed_cluster_tail}}
-      labels:
-        ignition-config: "true"
+        rhcos-config-clusterid: "{{managed_cluster_tail}}"
+        clusterID: "{{managed_cluster_tail}}"
   - apiVersion: batch/v1
     kind: Job
     metadata:
-      name: "{{managed_cluster_tail}}-ibm-nodepool-reconcile"
+      name: "ibm-nodepool-reconcile-{{managed_cluster_tail}}"
       namespace: master
       labels:
         app: ibm-nodepool-reconcile
+        rhcos-config-clusterid: "{{managed_cluster_tail}}"
+        clusterID: "{{managed_cluster_tail}}"
       annotations:
         version: (( grab $TRAVIS_COMMIT || "dev" ))
-        razee.io/source-url: (( grab $REPO_SOURCE_URL ))
-        razee.io/build-url: (( grab $BUILD_URL ))
+        razee.io/source-url: (( grab $REPO_SOURCE_URL || "repo.src" ))
+        razee.io/build-url: (( grab $BUILD_URL || "build.src" ))
     spec:
       template:
         metadata:
-          name: "{{managed_cluster_tail}}-ibm-nodepool-reconcile"
+          name: "ibm-nodepool-reconcile-{{managed_cluster_tail}}"
         spec:
           serviceAccount: ibm-nodepoolreconciler
           tolerations:
@@ -105,14 +109,16 @@ items:
             - name: nodepool-reconcile
               image: (( concat "{{ DOCKER_REGISTRY }}/armada-master/rhcos-vpcgen2-ignitiondata:" metadata.annotations.version ))
               command: ['/bin/bash', '-c', '/usr/local/bin/reconcile_nodepool_metadata.sh']
+              volumeMounts:
+              - name: nodepool-metadata
+                mountPath: /tmp/nodepool-metadata
               env:
                 - name: NODE_POOL_NAMESPACE
                   value: "master"
                 - name: HOSTED_CLUSTERID
                   value: "{{managed_cluster_tail}}"
-                - name: RELEASE_IMAGE
-                  valueFrom:
-                    configMapKeyRef:
-                      name: "{{managed_cluster_tail}}-nodepool-metadata-info"
-                      key: releaseimage
+          volumes:
+            - name: nodepool-metadata
+              configMap:
+                name: "nodepool-metadata-info-{{managed_cluster_tail}}"
           restartPolicy: Never

@@ -17,4 +17,4 @@ for file in $(ls machine-config-templates); do
 	process "machine-config-templates/$file"
 done
 # For testing uncomment the line below and it'll do local templating. Don't commit the uncomment change
-#spruce merge services/rhcos-vpcgen2-ignitiondata/deployment.yaml > services/rhcos-vpcgen2-ignitiondata/production.yaml
+# spruce merge services/rhcos-vpcgen2-ignitiondata/deployment.yaml > services/rhcos-vpcgen2-ignitiondata/production.yaml

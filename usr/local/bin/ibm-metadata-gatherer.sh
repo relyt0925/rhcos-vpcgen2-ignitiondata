@@ -43,3 +43,8 @@ ADVERTISED_IP_ADDRESS=172.20.0.1
 SECURE_PORT=2040
 cp -f "$BOOTSTRAP_KUBECONFIG_FILE_PATH" "$HAPROXY_KUBECONFIG_FILEPATH"
 sed -i "s/server:.*/server: https:\/\/${ADVERTISED_IP_ADDRESS}:${SECURE_PORT}/g" "$HAPROXY_KUBECONFIG_FILEPATH"
+# create metadata files read by SOS toolkit
+mkdir -p /opt/iks
+echo "{\"imageversion\": \"${BOM_VERSION}\"}" >/opt/iks/imageversion.json
+BOOTSTRAPPED_DATE=$(date -u +"%Y-%m-%dT%T%z")
+echo "{\"reloaddate\": \"${BOOTSTRAPPED_DATE}\"}" >/opt/iks/reloaddate.json

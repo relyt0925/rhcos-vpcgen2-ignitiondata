@@ -8,6 +8,7 @@ ConditionPathExists=!/etc/sysconfig/ibmmachinemetadataenvfile
 [Service]
 Type=oneshot
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+EnvironmentFile=/etc/sysconfig/ibmbomversion
 ExecStart=/usr/local/bin/ibm-metadata-gatherer.sh
 RemainAfterExit=yes
 
